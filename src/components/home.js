@@ -170,7 +170,7 @@ const Home = () => {
                 alignItems: "center",
                 gap: "10px",
                 padding: 2,
-                width: "250px",
+                width: "260px",
               }}
             >
               <div>Total number of unique users</div>
@@ -186,7 +186,7 @@ const Home = () => {
                 alignItems: "center",
                 gap: "10px",
                 padding: 2,
-                width: "250px",
+                width: "260px",
               }}
             >
               <div>Total number of calls</div>
@@ -202,7 +202,7 @@ const Home = () => {
                 alignItems: "center",
                 gap: "10px",
                 padding: 2,
-                width: "250px",
+                width: "260px",
               }}
             >
               <div>Total number of success</div>
@@ -218,7 +218,7 @@ const Home = () => {
                 alignItems: "center",
                 gap: "10px",
                 padding: 2,
-                width: "250px",
+                width: "260px",
               }}
             >
               <div>Total number of failures</div>
