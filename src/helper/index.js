@@ -2,7 +2,7 @@ export function processData(data, status) {
   const userMap = {};
 
   let filteredData = data;
-  if (status) filteredData = data.filter((item) => item?.status === "FAILED");
+  if (status) filteredData = data.filter((item) => item?.status === status);
   filteredData.forEach((item) => {
     const userId = item.userId;
     const createdAt = new Date(item.createdAt).toLocaleDateString("en-GB"); // Format date as "dd-mm-yyyy"

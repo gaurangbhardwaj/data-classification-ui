@@ -13,11 +13,11 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { ResponsiveLine } from "@nivo/line";
 import moment from "moment";
 
+import GraphComponent from "./graph";
+
 import { fetchData } from "../services";
-import { processData } from "../helper";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,7 +33,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -63,9 +62,6 @@ const Home = () => {
       endDate?.$d ? moment(endDate?.$d) : ""
     );
   }, [startDate, endDate]);
-
-  const data = (status) =>
-    logData?.logsList?.length ? processData(logData?.logsList, status) : [];
 
   return (
     <Box
@@ -278,154 +274,20 @@ const Home = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <Typography
-              style={{ padding: "20px 0" }}
-              variant="h4"
-              component="h4"
-            >
-              Total no. of API calls
-            </Typography>
-            <div style={{ height: "600px", width: "100%" }}>
-              <ResponsiveLine
-                data={data()}
-                enableArea={true}
-                curve="natural"
-                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-                xScale={{ type: "point" }}
-                yScale={{
-                  type: "linear",
-                  min: "auto",
-                  max: "auto",
-                  stacked: true,
-                  reverse: false,
-                }}
-                yFormat=" >-.2f"
-                axisTop={null}
-                axisRight={null}
-                axisBottom={{
-                  tickSize: 5,
-                  tickPadding: 5,
-                  tickRotation: 0,
-                  legend: "Timestamps",
-                  legendOffset: 36,
-                  legendPosition: "middle",
-                }}
-                axisLeft={{
-                  tickSize: 5,
-                  tickPadding: 5,
-                  tickRotation: 0,
-                  legend: "No. of API calls",
-                  legendOffset: -40,
-                  legendPosition: "middle",
-                }}
-                pointSize={10}
-                pointColor={{ theme: "background" }}
-                pointBorderWidth={2}
-                pointBorderColor={{ from: "serieColor" }}
-                pointLabelYOffset={-12}
-                useMesh={true}
-                legends={[
-                  {
-                    anchor: "bottom-right",
-                    direction: "column",
-                    justify: false,
-                    translateX: 100,
-                    translateY: 0,
-                    itemsSpacing: 0,
-                    itemDirection: "left-to-right",
-                    itemWidth: 80,
-                    itemHeight: 20,
-                    itemOpacity: 0.75,
-                    symbolSize: 12,
-                    symbolShape: "circle",
-                    symbolBorderColor: "rgba(0, 0, 0, .5)",
-                    effects: [
-                      {
-                        on: "hover",
-                        style: {
-                          itemBackground: "rgba(0, 0, 0, .03)",
-                          itemOpacity: 1,
-                        },
-                      },
-                    ],
-                  },
-                ]}
-              />
-            </div>
-            <Typography
-              style={{ padding: "40px 0" }}
-              variant="h4"
-              component="h4"
-            >
-              Total no. of Failed API calls
-            </Typography>
-            <div style={{ height: "600px", width: "100%" }}>
-              <ResponsiveLine
-                data={data("FAILED")}
-                enableArea={true}
-                curve="natural"
-                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-                xScale={{ type: "point" }}
-                yScale={{
-                  type: "linear",
-                  min: "auto",
-                  max: "auto",
-                  stacked: true,
-                  reverse: false,
-                }}
-                yFormat=" >-.2f"
-                axisTop={null}
-                axisRight={null}
-                axisBottom={{
-                  tickSize: 5,
-                  tickPadding: 5,
-                  tickRotation: 0,
-                  legend: "Timestamps",
-                  legendOffset: 36,
-                  legendPosition: "middle",
-                }}
-                axisLeft={{
-                  tickSize: 5,
-                  tickPadding: 5,
-                  tickRotation: 0,
-                  legend: "No. of failed API calls",
-                  legendOffset: -40,
-                  legendPosition: "middle",
-                }}
-                pointSize={10}
-                pointColor={{ theme: "background" }}
-                pointBorderWidth={2}
-                pointBorderColor={{ from: "serieColor" }}
-                pointLabelYOffset={-12}
-                useMesh={true}
-                legends={[
-                  {
-                    anchor: "bottom-right",
-                    direction: "column",
-                    justify: false,
-                    translateX: 100,
-                    translateY: 0,
-                    itemsSpacing: 0,
-                    itemDirection: "left-to-right",
-                    itemWidth: 80,
-                    itemHeight: 20,
-                    itemOpacity: 0.75,
-                    symbolSize: 12,
-                    symbolShape: "circle",
-                    symbolBorderColor: "rgba(0, 0, 0, .5)",
-                    effects: [
-                      {
-                        on: "hover",
-                        style: {
-                          itemBackground: "rgba(0, 0, 0, .03)",
-                          itemOpacity: 1,
-                        },
-                      },
-                    ],
-                  },
-                ]}
-              />
-            </div>
+            <GraphComponent
+              headerText="Total no. of API calls"
+              logData={logData}
+            />
+            <GraphComponent
+              headerText="Total no. of Success API calls"
+              dataStatus="SUCCESS"
+              logData={logData}
+            />
+            <GraphComponent
+              headerText="Total no. of Failed API calls"
+              dataStatus="FAILED"
+              logData={logData}
+            />
           </>
         )}
       </Box>
