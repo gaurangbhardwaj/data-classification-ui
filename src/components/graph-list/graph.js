@@ -1,11 +1,17 @@
+import React, { useMemo, memo } from "react";
 import { ResponsiveLine } from "@nivo/line";
 import Typography from "@mui/material/Typography";
 
-import { processData } from "../helper";
+import { processData } from "../../helper";
 
 const GraphComponent = ({ logData, dataStatus, headerText }) => {
-  const data = (status) =>
-    logData?.logsList?.length ? processData(logData?.logsList, status) : [];
+  const data = useMemo(
+    () =>
+      logData?.logsList?.length
+        ? processData(logData?.logsList, dataStatus || "")
+        : [],
+    [dataStatus, logData?.logsList]
+  );
   return (
     <>
       <Typography style={{ padding: "20px 0" }} variant="h4" component="h4">
@@ -13,7 +19,7 @@ const GraphComponent = ({ logData, dataStatus, headerText }) => {
       </Typography>
       <div style={{ height: "600px", width: "100%" }}>
         <ResponsiveLine
-          data={data(dataStatus ?? "")}
+          data={data}
           enableArea={true}
           curve="natural"
           margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
@@ -79,4 +85,4 @@ const GraphComponent = ({ logData, dataStatus, headerText }) => {
   );
 };
 
-export default GraphComponent;
+export default memo(GraphComponent);
